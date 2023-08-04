@@ -61,7 +61,6 @@ public class SocialMediaController {
             context.status(400);
         } else {
             context.json(mapper.writeValueAsString(addedAccount));
-            context.status(200);
         }
 
     }
@@ -69,8 +68,15 @@ public class SocialMediaController {
      * This is an example handler for an example endpoint.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
-    private void postLoginAccountHandler(Context context) {
-        context.json("sample text");
+    private void postLoginAccountHandler(Context context) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Account login = mapper.readValue(context.body(), Account.class);
+        Account person = accountService.matchLogin(login);
+        if (person != null) {
+            context.json(mapper.writeValueAsString(person));
+        } else {
+            context.status(401);
+        }
     }
 
     /**

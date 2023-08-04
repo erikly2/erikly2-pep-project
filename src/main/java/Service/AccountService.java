@@ -44,4 +44,15 @@ public class AccountService {
     public Boolean accountExist(String username) {
         return accountDAO.userExists(username);
     }
+
+    /** 
+     * checks if a username is already in use
+     * 
+     * @param username username to check
+     * @return if the username exists
+    */
+    public Account matchLogin(Account account) {
+        return accountDAO.matchLogin(account);
+    }
+    
 }
