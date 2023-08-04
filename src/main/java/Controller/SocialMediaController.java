@@ -86,7 +86,7 @@ public class SocialMediaController {
     private void postMessageHandler(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Message newMessage = mapper.readValue(context.body(), Message.class);
-        Boolean exist = messageService.personExists(newMessage); 
+        Boolean exist = messageService.personExists(newMessage.getPosted_by()); 
         if (newMessage.getMessage_text().isBlank() || newMessage.getMessage_text().length() >= 255 || !exist) {
             context.status(400);
         } else {
@@ -109,7 +109,13 @@ public class SocialMediaController {
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
     private void getMessageIDHandler(Context context) {
-        context.json("sample text");
+        String messageId = context.pathParam("message_id");
+        if (!messageService.personExists(Integer.valueOf(messageId))) {
+            context.json("");
+            return;
+        }
+        Message message = messageService.getMessageById(Integer.valueOf(messageId));
+        context.json(message);
     }
 
     /**

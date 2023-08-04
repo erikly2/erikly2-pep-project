@@ -76,7 +76,6 @@ public class AccountDAO {
 
     public Account matchLogin(Account account) {
         Connection connection = ConnectionUtil.getConnection();
-        List<Account> accounts = new ArrayList<>();
         try {
             String sql = "SELECT * FROM Account WHERE username=(?) AND password = (?);";
 

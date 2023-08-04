@@ -19,12 +19,16 @@ public class MessageService {
     public List<Message> getAllMessages() {
         return this.messageDAO.getAllMessages();
     }
+
+    public Message getMessageById(int message_id) {
+        return this.messageDAO.getMessageById(message_id);
+    }
  
     public Message addMessage(Message message) {
         return this.messageDAO.addMessage(message);
     }
 
-    public Boolean personExists(Message message) {
-        return this.messageDAO.personExists(message.posted_by);
+    public Boolean personExists(int posted_by) {
+        return this.messageDAO.personExists(posted_by);
     }
 }
