@@ -6,51 +6,49 @@ import Model.Account;
 import java.util.List;
 
 public class AccountService {
-    // new user registration
     private AccountDAO accountDAO;
 
     // No arg constructor
     public AccountService() {
         accountDAO = new AccountDAO();
     }
+
     // Constructor with arg
     public AccountService(AccountDAO accountDAO) {
         this.accountDAO=accountDAO;
     }
 
     /** 
-     * list of accounts 
-     * 
-     * @return all accounts
-    */
+     * Gets all the accounts from the Account table.
+     * @return all Accounts.
+     */
     public List<Account> getAllAccounts() {
         return accountDAO.getAllAccounts();
     }
+
     /** 
-     * inserts an account into the Account table. Does not contain an id
-     * 
-     * @param acc an account object
-     * @return The added account (if successful)
-    */
+     * Insert an account into the Account table. (no account_id)
+     * @param account The account to add.
+     * @return The Account added in the table.
+     */
     public Account insertAccount(Account acc) {
         return accountDAO.insertAccount(acc);
     }
+
     /** 
-     * checks if a username is already in use
-     * 
-     * @param username username to check
-     * @return if the username exists
-    */
+     * Finds if a username exists in the Account table
+     * @param username The name to check.
+     * @return If the username exists in the table.
+     */
     public Boolean accountExist(String username) {
         return accountDAO.userExists(username);
     }
 
     /** 
-     * checks if a username is already in use
-     * 
-     * @param username username to check
-     * @return if the username exists
-    */
+     * Gets the Account that matches the credentials provided.
+     * @param account holds the credentials to check.
+     * @return Account with matching credentials.
+     */
     public Account matchLogin(Account account) {
         return accountDAO.matchLogin(account);
     }

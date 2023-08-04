@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class MessageDAO {
+    /** 
+     * Gets all the messages from the Message table.
+     * @return all Messages.
+     */
     public List<Message> getAllMessages() {
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
@@ -28,6 +32,11 @@ public class MessageDAO {
         return messages;
     }
 
+    /** 
+     * Gets messages from the Message table given a message_id.
+     * @param message_id the id of the message to get.
+     * @return Message correlating to message_id.
+     */
     public Message getMessageById(int message_id) {
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -46,6 +55,11 @@ public class MessageDAO {
         return null;
     }
 
+    /** 
+     * Gets all the messages from the Message table given a account_id.
+     * @param user_id the id of the account pull all Messages from.
+     * @return all Messages from a user.
+     */
     public List<Message> getMessagesFromUser(int user_id) {
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
@@ -65,6 +79,10 @@ public class MessageDAO {
         return messages;
     }
 
+    /** 
+     * Deletes the messages from the Message table given a message_id.
+     * @param message_id The id of the message to delete.
+     */
     public void deleteMessageById(int message_id) {
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -78,6 +96,11 @@ public class MessageDAO {
         }
     }
 
+    /** 
+     * Updates the message at the message_id with message_text.
+     * @param message_text The updated text.
+     * @param message_id The id of the message to update.
+     */
     public void updateMessageById(String message_text, int message_id) {
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -92,6 +115,11 @@ public class MessageDAO {
         }
     }
 
+    /** 
+     * Adds a message to the Message table. (no message_id)
+     * @param message The message to add.
+     * @return The message added in the table.
+     */
     public Message addMessage(Message message) {
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -112,25 +140,12 @@ public class MessageDAO {
         }
         return null;
     }
-    public Boolean messageExists(int id) {
-        Connection connection = ConnectionUtil.getConnection();
-        List<Message> messages = new ArrayList<>();
-        try {
-            String sql = "SELECT * FROM Message WHERE message_id=(?)";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1,id);
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Message message = new Message(rs.getInt("message_id"), rs.getInt("posted_by"), rs.getString("message_text"), rs.getLong("time_posted_epoch"));
-                messages.add(message);
-            }
-        } catch(SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return (messages.size()>0);
-    }
-
+    /** 
+     * Finds if a user exists given an id.
+     * @param id the account_id of the user in question.
+     * @return If the user exists in the database.
+     */
     public Boolean personExists(int id) {
         Connection connection = ConnectionUtil.getConnection();
         List<Account> accounts = new ArrayList<>();
