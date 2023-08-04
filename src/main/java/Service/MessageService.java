@@ -23,6 +23,10 @@ public class MessageService {
     public Message getMessageById(int message_id) {
         return this.messageDAO.getMessageById(message_id);
     }
+
+    public List<Message> getMessagesFromUser(int user_id) {
+        return this.messageDAO.getMessagesFromUser(user_id);
+    }
  
     public void deleteMessageById(int message_id) {
         this.messageDAO.deleteMessageById(message_id);
