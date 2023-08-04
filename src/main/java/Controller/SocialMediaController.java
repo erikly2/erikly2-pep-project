@@ -12,6 +12,7 @@ import Service.MessageService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.util.List;
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
  * found in readme.md as well as the test cases. You should
@@ -99,7 +100,8 @@ public class SocialMediaController {
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
     private void getMessageHandler(Context context) {
-        context.json("sample text");
+        List<Message> messages = messageService.getAllMessages();
+        context.json(messages);
     }
 
     /**
