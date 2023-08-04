@@ -55,14 +55,13 @@ public class SocialMediaController {
         // check username != exist
         // if all met -> 200
         // else -> 400
-        Boolean exist = !accountService.accountExist(newAccount.getUsername());
-        Account addedAccount = accountService.insertAccount(newAccount); 
-        if (newAccount.username.isBlank() || newAccount.getPassword().length() < 4 || exist) {
+        Boolean exist = accountService.accountExist(newAccount.getUsername()); 
+        if (newAccount.username.isBlank() || newAccount.getPassword().length() < 4 || !exist) {
             context.status(400);
         } else {
+            Account addedAccount = accountService.insertAccount(newAccount);
             context.json(mapper.writeValueAsString(addedAccount));
         }
-
     }
     /**
      * This is an example handler for an example endpoint.
@@ -83,8 +82,16 @@ public class SocialMediaController {
      * This is an example handler for an example endpoint.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
-    private void postMessageHandler(Context context) {
-        context.json("sample text");
+    private void postMessageHandler(Context context) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message newMessage = mapper.readValue(context.body(), Message.class);
+        Boolean exist = messageService.personExists(newMessage); 
+        if (newMessage.getMessage_text().isBlank() || newMessage.getMessage_text().length() >= 255 || !exist) {
+            context.status(400);
+        } else {
+            Message addedMessage = messageService.addMessage(newMessage); 
+            context.json(mapper.writeValueAsString(addedMessage));
+        }
     }
 
     /**
