@@ -137,8 +137,17 @@ public class SocialMediaController {
      * This is an example handler for an example endpoint.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
-    private void patchMessageHandler(Context context) {
-        context.json("sample text");
+    private void patchMessageHandler(Context context) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message newMessage = mapper.readValue(context.body(), Message.class);
+        String messageId = context.pathParam("message_id");
+        if (!messageService.personExists(Integer.valueOf(messageId)) || newMessage.message_text.isBlank() || newMessage.message_text.length() >= 255) {
+            context.status(400);
+        } else {
+            messageService.updateMessageById(newMessage.message_text, Integer.valueOf(messageId));
+            Message message = messageService.getMessageById(Integer.valueOf(messageId));
+            context.json(message);
+        }
     }
 
     /**

@@ -28,6 +28,10 @@ public class MessageService {
         this.messageDAO.deleteMessageById(message_id);
     }
 
+    public void updateMessageById(String message_text, int message_id) {
+        this.messageDAO.updateMessageById(message_text, message_id);
+    }
+
     public Message addMessage(Message message) {
         return this.messageDAO.addMessage(message);
     }

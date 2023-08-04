@@ -59,6 +59,20 @@ public class MessageDAO {
         }
     }
 
+    public void updateMessageById(String message_text, int message_id) {
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            String sql = "UPDATE Message SET message_text=(?) WHERE message_id=(?);";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, message_text);
+            ps.setInt(2, message_id);
+            ps.executeUpdate();
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public Message addMessage(Message message) {
         Connection connection = ConnectionUtil.getConnection();
         try {
